@@ -48,6 +48,7 @@ Result SetAdptArrayAt(PAdptArray paa, int index, PElement element) {
   if (paa->size == 0) {
     paa->array = (PElement *)calloc((index + 1) , sizeof(PElement));
     if (paa->array == NULL) {
+      paa->size = -1;
       return FAIL;
     }
   }
@@ -55,6 +56,7 @@ Result SetAdptArrayAt(PAdptArray paa, int index, PElement element) {
   if (index >= paa->size) {
     if ((newpElemArr = (PElement *)calloc((index + 1), sizeof(PElement))) ==
         NULL) {
+      paa->size = -1;	
       return FAIL;
     }
     memcpy(newpElemArr, paa->array, (paa->size) * sizeof(PElement));
@@ -78,7 +80,11 @@ PElement GetAdptArrayAt(PAdptArray paa, int index) {
   return paa->cpy_fun(paa->array[index]);
 }
 
-int GetAdptArraySize(PAdptArray paa) { return paa->size; }
+int GetAdptArraySize(PAdptArray paa) {
+	if(paa==NULL){
+		return -1;
+	}
+	return paa->size; }
 
 void PrintDB(PAdptArray paa) {
   for (int i = 0; i < paa->size; i++) {
